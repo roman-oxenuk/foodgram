@@ -7,7 +7,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Рецепты</title>
-    <link rel="stylesheet" href="{% static "css/pages/index.css" %}">
+    {% block stylesheets %}
+    {% endblock %}
 </head>
 <body class="body">
 <header class="header">
@@ -20,15 +21,8 @@
     <footer class="footer">
         {% include "footer.html" %}
     </footer>
-<script src="{% static "js/components/MainCards.js" %}></script>
-<script src="{% static "js/components/MainCards.js" %}></script>
 
-<script src="{% static "js/components/Purchpurachases.js" %}></script>
-
-<script src="{% static "js/components/CardList.js" %}></script>
-<script src="{% static "js/components/Header.js" %}></script>
-
-<script src="{% static "js/api/Api.js" %}></script>
-<script src="{% static "js/indexNotAuth.js" %}></script>
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

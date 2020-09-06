@@ -6,30 +6,27 @@ from .models import Recipe, Tag
 from .forms import TagsFilterForm
 
 
-class RecipeIndexListView(FormMixin, ListView):
+class RecipeIndexListView(ListView):
 
     model = Recipe
     template_name = 'index.html'
-    form_class = TagsFilterForm
-
-    def get_form_kwargs(self):
-        kwargs = {
-            'initial': self.get_initial(),
-            'prefix': self.get_prefix(),
-        }
-        if self.request.method in ('GET'):
-            kwargs.update({
-                'data': self.request.GET,
-            })
-        return kwargs
 
     def get_queryset(self):
         qs = super().get_queryset()
-        form = self.form_class(**self.get_form_kwargs())
-        if form.is_valid():
-            tags_ids = [tag.id for tag in form.cleaned_data['tags']]
-            qs = qs.filter(tags__pk__in=tags_ids)
+
+        if 'filters' in self.request.GET:
+            filters = self.request.GET.getlist('filters')
+            qs = qs.filter(tags__name__in=filters).distinct()
+
         return qs
+
+    def get_all_tags(self):
+        return Tag.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({'all_tags': self.get_all_tags()})
+        return context
 
 
 class RecipeDetailView(DetailView):

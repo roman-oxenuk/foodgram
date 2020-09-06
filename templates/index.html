@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static widget_tweaks %}
+{% load static widget_tweaks recipes_extras %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{% static "css/pages/index.css" %}">
@@ -9,23 +9,18 @@
     <div class="main__header">
         <h1 class="main__title">Рецепты</h1>
         <ul class="tags">
-            <form method="GET">
-                <div class="tags">
-                    {% for tag, tag_value in form.tags.field.choices %}
-                        <div class="tags__item">
-                            <input
-                                type="checkbox"
-                                name="tags"
-                                id="id_{{ tag.instance.name }}"
-                                value="{{ tag.instance.name }}"
-                                class="tags__checkbox tags__checkbox_style_{{ tag.instance.style }}"
-                                {% if tag.instance.name in form.tags.value %} checked {% endif %}
-                                onChange="this.form.submit()">
-                            <label for="id_{{ tag.instance.name }}" class="tags__label">{{ tag.instance.human_name }}</label>
-                        </div>
-                    {% endfor%}
-                </div>
-            </form>
+            {% with filter_values=request.GET|get_filter_values %}
+                {% for tag in all_tags %}
+                    <li class="tags__item">
+                        <a
+                            id="{{ tag.name }}"
+                            class="tags__checkbox tags__checkbox_style_{{ tag.style }} {% if tag.name in filter_values %}tags__checkbox_active{% endif %}"
+                            href="/?{{ request|get_filter_link:tag}}"
+                        ></a>
+                        <span class="tags__label">{{ tag.human_name }}</span>
+                    </li>
+                {% endfor %}
+            {% endwith %}
         </ul>
     </div>
     <div class="card-list">

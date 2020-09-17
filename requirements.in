@@ -1,3 +1,7 @@
 Django
 Pillow
 django-widget-tweaks
+django-weasyprint
+gunicorn
+pip-tools
+psycopg2

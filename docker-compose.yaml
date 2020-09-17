@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U postgres"]
+    env_file:
+      - ./.env
+
+  web:
+    build: .
+    restart: always
+    command: gunicorn api_yamdb.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./static:/static
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      - web
+    ports:
+      - 80:80
+    volumes:
+      - ./static:/home/www/static

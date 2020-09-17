@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static widget_tweaks %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static "css/pages/form.css" %}">
+{% endblock %}
+
+{% block main %}
+<div class="main__header">
+        <h1 class="main__title">Создание рецепта</h1>
+    </div>
+    <div class="form-container">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            {{ form.instance.tags.all }}
+            <br>
+
+            {% for tag, name in form.tags.field.choices %}
+                {{ tag }}, {{ name }}
+                {% if tag.instance in form.instance.tags.all %}
+                    Вот этот тег выбран
+                {% endif %}
+                <br>
+            {% endfor %}
+            <br>
+
+            <div class="form__group">
+                <label for="id_title" class="form__label">Название рецепта</label>
+                <div class="form__field-group">
+                    {{ form.title|add_class:"form__input" }}
+                    <span class="form__error">{{ form.title.errors }}</span>
+                </div>
+            </div>
+
+
+            {% comment %}
+            <div class="form__group">
+                <p class="form__label">Теги</p>
+                <div class="form__field-group">
+                    <div class="tags">
+
+                        {% for tag_choice, tag_value in form.tags.field.choices %}
+                            <div class="tags__item">
+                                <input
+                                    type="checkbox"
+                                    name="tags"
+                                    value="{{ tag_choice.instance.pk }}"
+                                    id="id_{{ tag_choice.instance.value }}"
+                                    class="tags__checkbox tags__checkbox_style_{{ tag_choice.instance.style }}">
+                                <label for="id_{{ tag_choice.instance.value }}" class="tags__label">
+                                    {{ tag_choice.instance.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <span class="form__error">{{ form.tags.errors }}</span>
+                </div>
+            </div>
+            {% endcomment %}
+
+            <div class="form__group">
+                <label for="nameIngredient" class="form__label">Ингредиенты</label>
+                <div class="form__field-group">
+
+                    <div class="form__field-group-ingredientes">
+                        <div class="form__dropdown">
+                            <input type="text" id="nameIngredient" class="form__input">
+                            <div class="form__dropdown-items"></div>
+                        </div>
+                        <input type="number" id="cantidad" class="form__input" min="0">
+                        <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
+                    </div>
+
+                    <span id="form_collection-prefix" style="display: none;">{{ form_collection.prefix }}</span>
+                    {% for form in form_collection %}
+                    <div class="form__field-item-ingredient" id="ing1">
+                        <span>{{ form.name.value }} {{ form.amount.value }} {{ form.units.value }}</span> <span class="form__field-item-delete"></span>
+                        {% for field in form %}
+                            {{ field }}
+                        {% endfor %}
+                        {% if form.errors %}
+                            <span class="form__error">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <span>{{ error|escape }}</span>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                        <span>{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
+                    <span class="form__error"></span>
+
+                </div>
+            </div>
+
+            {% comment %}
+            <div class="form__group">
+                <label for="id_time" class="form__label">Время приготовления</label>
+                <div class="form__field-group form__field-group_time">
+                    <input type="text" id="id_time" name="name" class="form__input">
+                    <label for="id_time" class="form__label">минут</label>
+                    <span class="form__error"></span>
+                </div>
+            </div>
+            <div class="form__group">
+                <label for="id_description" class="form__label">Описание</label>
+                <div class="form__field-group">
+                    <textarea name="description" id="id_description" rows="8" class="form__textarea"></textarea>
+                    <span class="form__error"></span>
+                </div>
+            </div>
+            <div class="form__group">
+                <span class="form__label">Загрузить фото</span>
+                <div class="form__field-group">
+                    <label for="id_file" class="form__file-button">Выбрать файл</label>
+                    <input type="file" class="form__file" name="file" id="id_file">
+                    <span class="form__error"></span>
+                </div>
+            </div>
+            {% endcomment %}
+
+            <div class="form__footer">
+                <button class="button button_style_blue">Создать рецепт</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "/js/config/config.js" %}"></script>
+
+<!-- <script src="{% static "/js/components/Header.js" %}"></script> -->
+<script src="{% static "/js/utils/debouncing.js" %}"></script>
+<script src="{% static "/js/api/Api.js" %}"></script>
+<script src="{% static "/js/formRecipe.js" %}"></script>
+
+<!--
+<script src="{% static "js/components/MainCards.js" %}></script>
+<script src="{% static "js/components/MainCards.js" %}></script>
+
+<script src="{% static "/js/components/Purchpurachases.js" %}"></script>
+
+<script src="{% static "/js/components/MainCards.js" %}"></script>
+<script src="{% static "/js/components/SingleCard.js" %}"></script>
+<script src="{% static "/js/components/Header.js" %}"></script>
+
+<script src="{% static "/js/api/Api.js" %}"></script>
+<script src="{% static "/js/singlePageNotAuth.js" %}"></script>
+-->
+{% endblock %}

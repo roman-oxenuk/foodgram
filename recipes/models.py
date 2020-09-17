@@ -35,13 +35,13 @@ class Tag(models.Model):
 
 class Recipe(models.Model):
     """Рецепт блюда """
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title = models.CharField('Название блюда', max_length=255)
-    image = models.ImageField(upload_to='recipes')
-    description = models.TextField('Описание блюда')
-    tags = models.ManyToManyField(Tag)
-    time_to_cook = models.IntegerField('Время приготовления')
-    slug = models.SlugField()
+    image = models.ImageField(upload_to='recipes', null=True)
+    description = models.TextField('Описание блюда', null=True)
+    tags = models.ManyToManyField(Tag, null=True)
+    time_to_cook = models.IntegerField('Время приготовления', null=True)
+    slug = models.SlugField(null=True)
 
     def __str__(self):
         return f'id: {self.pk}, {self.title}'

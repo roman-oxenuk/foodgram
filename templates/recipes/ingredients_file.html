@@ -1,0 +1,40 @@
+{% comment %}
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{% static "css/pages/form.css" %}">
+    {% endblock %}
+
+    {% block main %}
+    <div class="main__header">
+        <h1 class="main__title">Купить</h1>
+        <ul>
+            {% for ingredient in object_list %}
+            <li>
+                <input type="checkbox">
+                <span>{{ ingredient.name }} - {{ ingredient.units.short_name }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endblock %}
+{% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>Купить:</h3>
+    <ul>
+        {% for ingredient in object_list %}
+        <li>
+            <input type="checkbox">
+            <span>{{ ingredient.name }} - {{ ingredient.units.short_name }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

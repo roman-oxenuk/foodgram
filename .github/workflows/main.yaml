@@ -43,6 +43,8 @@ jobs:
       - name: Push Foodgram-nginx to Docker Hub
         uses: docker/build-push-action@v1
         with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: romanoxenuk/foodgram-nginx

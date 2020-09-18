@@ -26,7 +26,7 @@ jobs:
   #     run: pytest tests.py
 
   push_to_docker_hub_foodgram:
-    name: Push Docker image to Docker Hub
+    name: Push Docker image Foodgram to Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -41,9 +41,15 @@ jobs:
           tag_with_ref: true
 
   push_to_docker_hub_nginx:
+    name: Push Docker image NGINX to Docker Hub
+    runs-on: ubuntu-latest
+    working-directory: ./nginx
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
       - name: Push Foodgram-nginx to Docker Hub
         uses: docker/build-push-action@v1
-        working-directory: ./nginx
         with:
           # context: ./nginx
           # context: https://github.com/${github.context.repo.owner}/${github.context.repo.repo}#${github.context.ref}/nginx

@@ -52,8 +52,8 @@ jobs:
         uses: docker/build-push-action@v1
         with:
           # context: ./nginx
-          context: https://github.com/${github.context.repo.owner}/${github.context.repo.repo}#${github.context.ref}:nginx
-          # file: nginx/Dockerfile
+          # context: https://github.com/${github.context.repo.owner}/${github.context.repo.repo}#${github.context.ref}:nginx
+          file: ./nginx/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: romanoxenuk/foodgram-nginx

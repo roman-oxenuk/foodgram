@@ -63,11 +63,9 @@ jobs:
         # passphrase: ${{ secrets.PASSPHRASE }} # если ваш ssh-ключ защищен фразой-паролем
         # script: uname -a
         script: |
-          # sudo docker pull romanoxenuk/foodgram
-          # sudo docker stop $(docker ps -a -q) 2>/dev/null
+          cd foodgram-infra
           sudo docker-compose down
-          sudo docker-compose up -d
+          sudo docker-compose up -d --build
           sudo docker-compose exec -T web python manage.py collectstatic --noinput
           sudo docker-compose exec -T web make run_migrations
-          # sudo docker run --rm -d -p 80:5000 romanoxenuk/foodgram
 

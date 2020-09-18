@@ -16,6 +16,7 @@ services:
     command: gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./static:/code/static
+      - ./media:/code/media
     depends_on:
       - db
     env_file:
@@ -29,3 +30,4 @@ services:
       - 80:80
     volumes:
       - ./static:/home/www/static:ro
+      - ./media:/home/www/media:ro

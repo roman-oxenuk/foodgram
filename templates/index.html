@@ -26,11 +26,11 @@
     <div class="card-list">
         {% for recipe in object_list %}
             <div class="card" data-id="{{ recipe.pk }}">
-                <a href="{% url 'recipe_detail' recipe.slug %}" class="link" target="_blank">
+                <a href="{% url 'recipe_detail' recipe.slug %}" class="link">
                     <img src="{{ recipe.image.url }}" %}" alt="{{ recipe.title }}" class="card__image">
                 </a>
                 <div class="card__body">
-                    <a class="card__title link" href="#" target="_blank">{{ recipe.title }}</a>
+                    <a class="card__title link" href="#">{{ recipe.title }}</a>
                     <ul class="card__items">
                         {% for tag in recipe.tags.all %}
                             {% include 'recipes/snippets/recipe_tags.html' %}
@@ -54,6 +54,8 @@
             </div>
         {% endfor %}
     </div>
+
+    {% comment %}
     <nav class="pagination" aria-label="Search results pages">
         <ul class="pagination__container">
             <li class="pagination__item"><a class="pagination__link link" href="#"><span class="icon-left"></span></a></li>
@@ -65,6 +67,8 @@
             <li class="pagination__item"><a class="pagination__link link" href="#"><span class="icon-right"></span></a></li>
         </ul>
     </nav>
+    {% endcomment %}
+
 {% endblock %}
 
 {% block scripts %}
